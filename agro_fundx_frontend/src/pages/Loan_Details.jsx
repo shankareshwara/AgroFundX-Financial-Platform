@@ -14,7 +14,7 @@ const Loan_Details = () => {
       <h1 style={{ textAlign: "center", paddingTop: "50px" }}>Loan Details</h1>
       <div className="card-list">
         {cardsData.map((card, index) => (
-          <div key={index} className="card">
+          <div key={index} className="card1">
             <p className="card-title">Applicant Name: {card.name}</p>
             <p className="card-title">Application Loan Id: {card.id}</p>
             <p className="card-title">Applicant Phone No: {card.phone}</p>

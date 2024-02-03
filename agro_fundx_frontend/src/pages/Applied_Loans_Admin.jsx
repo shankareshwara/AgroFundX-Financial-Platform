@@ -15,7 +15,7 @@ const Applied_Loans = () => {
       <h1 style={{textAlign:"center",paddingTop:"50px"}}>Applied Loans</h1>
       <div className="card-list">
         {cardsData.map((card, index) => (
-          <div key={index} className="card">
+          <div key={index} className="card1">
             <p className="card-title">{card.name}</p>
             <p className="card-title">{card.id}</p>
             <p className="card-title">{card.phone}</p>

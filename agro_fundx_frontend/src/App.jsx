@@ -14,6 +14,7 @@ import Apply_Loan2 from "./pages/Apply_Loan2"
 import Loan_Status from "./pages/Loan_Status"
 import Applied_Loans from "./pages/Applied_Loans_Admin"
 import Loan_Details from "./pages/Loan_Details"
+import DashBoard from "./pages/Farmer_Dashbord"
 function App() {
   return (
     <Router>
@@ -31,6 +32,7 @@ function App() {
         <Route path = "/Loan_Status" element ={<Loan_Status/>}/> 
         <Route path = "/Applied_Loans" element ={<Applied_Loans/>}/> 
         <Route path = "/Loan_Details" element ={<Loan_Details/>}/> 
+        <Route path = "/DashBoard" element ={<DashBoard/>}/> 
       </Routes>
       {/* <Footer/> */}
     </Router>

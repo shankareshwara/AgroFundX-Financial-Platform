@@ -23,7 +23,7 @@ import { deleteFarmerDetails } from './Stores/MasterSlice';
 export default function MenuAppBar() {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [login , setLogin] = React.useState(false);
+  const [login , setLogin] = React.useState(true);
   const { FarmerDetails } = useSelector((state) => state.master);
   const dispatch = useDispatch();
   const  handleChange = (event) => {
@@ -37,9 +37,10 @@ export default function MenuAppBar() {
       
     }
     else{
-      setLogin(false);
-
+      setLogin(true);
+      
     }
+    // console.log(login);
   }, []);
 
 
@@ -90,7 +91,7 @@ export default function MenuAppBar() {
             agro fundX
               </Link>
           </Typography>
-          <Link to= "/"
+          <Link to= "/customer"
             style={{
                 textDecoration: "none",
                 color: "black",
