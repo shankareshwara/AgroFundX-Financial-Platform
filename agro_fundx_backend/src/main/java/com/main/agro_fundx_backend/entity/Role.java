@@ -1,5 +1,6 @@
 package com.main.agro_fundx_backend.entity;
 
-public class DocumentModel {
-
+public enum Role {
+    USER,
+    ADMIN
 }

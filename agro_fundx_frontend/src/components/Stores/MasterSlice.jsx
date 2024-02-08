@@ -1,32 +1,42 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  users: null,
-  FarmerDetails:{
-    email:"",
-    password:"",
+  Email: null,
+  Token:null,
+  user:{
+    email: "",
+    password : "",
+    role:"user"
   },
+  userDetails:null
 };
 const masterSlice = createSlice({
   name: "Master",
   initialState,
   reducers: {
-    addFarmer: (state, action) => {
-      state.FarmerDetails = action.payload
+    addUser: (state, action) => {
+      state.user = action.payload;
     },
-    deleteFarmerDetails: (state, action) => {
-      state.FarmerDetails = {
-        email:"",
-        password:"",
-      };
-    }
+    addEmail: (state, action) => {
+      console.log(action);
+      state.Email = action.payload;
+    },
+    addToken: (state, action) => {
+      state.Token = action.payload;
+    },
+    addUserDetails: (state, action) => {
+      state.userDetails = action.payload;
+    },
+    
   },
 });
 
 export const {
   
-  addFarmer,
-  deleteFarmerDetails
+  addUser,
+  addEmail,
+  addToken,
+  addUserDetails
   
 } = masterSlice.actions;
 

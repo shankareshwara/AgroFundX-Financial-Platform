@@ -4,17 +4,16 @@ import { SignInSchema } from '../assets/schemas/signinSchema'
 import Swal from 'sweetalert2'
 import {useNavigate} from 'react-router-dom'
 import {useDispatch} from "react-redux"
-import { addFarmer } from '../components/Stores/MasterSlice'
 import '../assets/css/Login.css'
+import UserAuthService from '../services/UserAuthService'
+import { addEmail , addToken ,addUser} from '../components/Stores/MasterSlice'
 const Login_Farmer = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const initialState = {
         email: "",
         password : "",
-          // confirmPassword:"",
-          // mobileNumber:"",
-          // address:"",
+        role:"user"
       };
   
       const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
@@ -29,6 +28,12 @@ const Login_Farmer = () => {
       })
   const eventLogin = async () => {
     try {
+      const response = await UserAuthService.loginUserWithEmailAndPassword(values);
+      console.log(response);
+      var token = response.data.token;
+      var userEmail = response.data.email;
+      
+      if (response.message != "Request failed with status code 400") {
         let timerInterval;
         Swal.fire({
           title: "Successfully LoggedIn !",
@@ -52,12 +57,25 @@ const Login_Farmer = () => {
           }
         });
         setTimeout(() => {
-          dispatch(addFarmer(values));
+          dispatch(addUser(values)); 
+          dispatch(addEmail(userEmail));
+          dispatch(addToken(token));
           navigate("/");
         }, 3000);
       }
-     catch (error) {
-      console.log(error);
+      else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Login failed",
+        });
+      }
+    } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Login failed",
+        });
     }
   };
 

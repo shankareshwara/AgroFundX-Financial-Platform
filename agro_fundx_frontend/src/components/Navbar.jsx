@@ -17,31 +17,30 @@ import { Button } from '@mui/material';
 import Sidebar from './Sidebar';
 import { useSelector ,useDispatch} from 'react-redux';
 import { useEffect } from 'react';
-import { deleteFarmerDetails } from './Stores/MasterSlice';
 
 
 export default function MenuAppBar() {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [login , setLogin] = React.useState(true);
+  const [login , setLogin] = React.useState(false);
   const { FarmerDetails } = useSelector((state) => state.master);
   const dispatch = useDispatch();
   const  handleChange = (event) => {
     setAuth(event.target.checked);
   };
-  useEffect(() => {
+  // useEffect(() => {
     
-    if(FarmerDetails.length != 0){
-      setLogin(true);
-      console.log(FarmerDetails);
+  //   if(FarmerDetails.length != 0){
+  //     setLogin(true);
+  //     console.log(FarmerDetails);
       
-    }
-    else{
-      setLogin(true);
+  //   }
+  //   else{
+  //     setLogin(true);
       
-    }
-    // console.log(login);
-  }, []);
+  //   }
+  //   // console.log(login);
+  // }, []);
 
 
   const handleMenu = (event) => {

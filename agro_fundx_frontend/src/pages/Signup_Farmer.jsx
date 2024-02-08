@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom'
 // import {useState} from 'react'
 // import '../Styles/signup.css'
 // import UserService from "../Services/UserService"
-// import UserAuthService from '../Services/UserAuthService'
+import UserAuthService from "../services/UserAuthService"
 import React from "react";
 function Signup_Farmer() {
     const navigate = useNavigate();
@@ -17,6 +17,7 @@ function Signup_Farmer() {
         password : "",
         confirmPassword:"",
         phoneNumber:"",
+        role:"user"
        
     };
 
@@ -33,7 +34,16 @@ function Signup_Farmer() {
 
   const eventRegister = async () => {
     try {
-        
+        const response = await UserAuthService.saveUser(values);
+        console.log(response.data.token);
+        const target = "Error";
+        const target1 = "Email Already Exists !!";
+
+        if (response.data === target) {
+            throw target;
+        } else if (response.data.token === target1) {
+            throw target1;
+        } else {
             let timerInterval;
             Swal.fire({
                 title: "Registered Successfully !!",
@@ -57,10 +67,10 @@ function Signup_Farmer() {
                 }
             });
             setTimeout(() => {
-                navigate("/Login");
+                navigate("/login");
             }, 3000);
         }
-    catch (error) {
+    } catch (error) {
         Swal.fire({
             icon: "error",
             title: "Oops...",
