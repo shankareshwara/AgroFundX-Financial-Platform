@@ -43,6 +43,18 @@ class LoanService {
     );
 
   }
+  getLoanByName(name){
+    return axios.get(USER_API_BASE_URL + "get/name/"+name
+    // , config
+    );
+
+  }
+  getLoanByEmail(email){
+    return axios.get(USER_API_BASE_URL + "get/email/"+email
+    // , config
+    );
+
+  }
   getUserByEmail(email,token) {
     // const config = {
     //   headers: {

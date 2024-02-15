@@ -17,4 +17,8 @@ public interface LoanApplicantRepository extends JpaRepository<LoanApplicantMode
 
      @Query("SELECT d FROM LoanApplicantModel d WHERE d.applicantEmail = :applicantEmail AND d.loanType = :loanType")
     Optional<LoanApplicantModel> findByEmailAndLoanType(@Param("applicantEmail") String applicantEmail, @Param("loanType") String loanType);
+
+    List<LoanApplicantModel> findByapplicantName(String name);
+
+    List<LoanApplicantModel> findByapplicantEmail(String email);
 }

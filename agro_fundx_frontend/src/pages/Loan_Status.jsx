@@ -6,13 +6,18 @@ import { useState} from "react";
 import LoanService from "../services/LoanService";
 import { addTrackedLoanDetails } from "../components/Stores/MasterSlice";
 import Swal from "sweetalert2";
+import { useLocation } from "react-router-dom";
 function Loan_Status() {
-  const [trackId, setTrackId] = useState(0);
   const [isClick, setIsClick] = useState(false);
   const dispatch = useDispatch()
   const {TrackedLoanDetails}  = useSelector((state) => state.master);
   const { Token } = useSelector((state) => state.master);
+  const location = useLocation();
+  // console.log(location.state.trackId);
+  const [trackId, setTrackId] = useState(location.state ? location.state.trackId : "");
+  
   const checktracking = async (e) => {
+
     e.preventDefault();
     try {
         const response = await LoanService.getLoanBytrack(trackId);
@@ -129,6 +134,7 @@ function Loan_Status() {
             onChange={(e) => {
               setTrackId(e.target.value);
             }}
+            value={trackId}
             placeholder="Enter Loan ID Number"
             required
             className="loan-input"

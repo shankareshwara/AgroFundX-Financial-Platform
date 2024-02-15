@@ -27,6 +27,20 @@ const initialState = {
       loanRepaymentMonths:"",
       status:""
   },
+  AllLoanDetailsEmail:{
+      trackId:0,
+      loanType:"",
+      applicantName:"",
+      applicantAddress:"",
+      applicantMobile:"",
+      applicantEmail:"Email",
+      applicantAadhaar:"",
+      applicantPan:"",
+      applicantSalary:"",
+      loanAmountRequired:"",
+      loanRepaymentMonths:"",
+      status:""
+  },
   appliedDetails:{
     trackId:0,
       loanType:"",
@@ -64,6 +78,9 @@ const masterSlice = createSlice({
     },
     addAllLoanDetails: (state, action) => {
       state.AllLoanDetails = action.payload;
+    },
+    addAllLoanDetailsByEmail: (state, action) => {
+      state.AllLoanDetailsEmail = action.payload;
     },
     addTrackedLoanDetails: (state, action) => {
       state.TrackedLoanDetails = action.payload;
@@ -107,6 +124,7 @@ export const {
   addUserDetails,
   addLoanDetails,
   addTrackedLoanDetails,
+  addAllLoanDetailsByEmail,
   addAllLoanDetails,
   addadminPresent,
   addAppliedDetails,

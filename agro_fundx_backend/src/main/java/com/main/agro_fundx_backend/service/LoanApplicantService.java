@@ -59,4 +59,12 @@ public class LoanApplicantService {
     public List<LoanApplicantModel> getAppliedDetails() {
        return repo.findByAccepted();
     }
+
+    public List<LoanApplicantModel> getByName(String name) {
+       return repo.findByapplicantName(name);
+    }
+
+    public List<LoanApplicantModel> getByEmail(String email) {
+        return repo.findByapplicantEmail(email);
+    }
 }

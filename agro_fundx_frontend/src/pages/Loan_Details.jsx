@@ -3,11 +3,12 @@ import UserService from '../services/UserService';
 import { addAllLoanDetails } from '../components/Stores/MasterSlice';
 import LoanService from '../services/LoanService';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 
 const Loan_Details = () => {
   const { AllLoanDetails } = useSelector((state) => state.master);
+  const [trackId, setTrackId] = useState(); 
   const dispatch = useDispatch();
   useEffect(() => {
     getData();
@@ -30,12 +31,52 @@ const Loan_Details = () => {
     { name: 'Gopal', id: '1833270', phone: '957577433', address: 'XXXXXX', email: 'XXXXXX@gmail.com', loan: '800000' },
     { name: 'Shekar', id: '2344291', phone: '919847433', address: 'XXXXXX', email: 'XXXXXX@gmail.com', loan: '100000' },
   ];
-
+  
   const isLoanAccepted = true;
+  const checktracking = async (e) => {
+    e.preventDefault();
+    try{
+      if(trackId == null){
 
+        getData();
+      }
+      else{
+    const response = await LoanService.getLoanByName(trackId);
+    // console.log(response);
+    if(response.data.length != 0){
+      dispatch(addAllLoanDetails(response.data));
+    }
+    else{
+      console.log("no user found");
+      getData();
+    }
+  }
+    
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
   return (
     <div>
       <h1 style={{ textAlign: "center", paddingTop: "50px" }}>Loan Details</h1>
+      <form onSubmit={checktracking} className="search-form">
+          <input
+            type="text"
+            onChange={(e) => {
+              setTrackId(e.target.value);
+            }}
+            // value={trackId}
+            placeholder="Enter Applicant Name"
+            className="loan-input"
+            />
+          <button type="submit" className="search-button">
+            Search
+          </button>
+        </form>
+          {/* <button onClick={getData} className="search-button" style={{paddingLeft:"10px"}}>
+            All Details
+          </button> */}
       <div className="card-list">
         {AllLoanDetails.map((data) => (
           <div className="card1">

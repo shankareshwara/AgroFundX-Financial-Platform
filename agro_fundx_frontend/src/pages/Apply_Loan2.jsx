@@ -62,8 +62,8 @@ const Apply_Loan2 = () => {
     const firstPage=() =>{
         navigate("/Apply_Loan");
     }
-    const TrackPage=() =>{
-        navigate("/Loan_Status");
+    const TrackPage=(trackId) =>{
+        navigate("/Loan_Status",{state : {trackId : trackId}});
     }
   return (
     <div className='body22'>
@@ -100,7 +100,7 @@ const Apply_Loan2 = () => {
             <div className="title1">LOAN APPLIED SUCCESSFULLY</div>
             <div className="title1">your track id : {LoanDetails.trackId}</div>
             <div>
-            <button className='button34' onClick={TrackPage} >track status</button>
+            <button className='button34' onClick={()=>TrackPage(LoanDetails.trackId)} >track status</button>
             </div>
         </div>
     )}

@@ -29,6 +29,14 @@ public class LoanController {
     public List<LoanApplicantModel>getLoan(){
         return LoanService.getLoan();
     }
+    @GetMapping("/get/name/{name}")
+    public List<LoanApplicantModel>getByName(@PathVariable String name){
+        return LoanService.getByName(name);
+    }
+    @GetMapping("/get/email/{email}")
+    public List<LoanApplicantModel>getByEmail(@PathVariable String email){
+        return LoanService.getByEmail(email);
+    }
 
     @PostMapping("/post")
     public String AddLoan(@RequestBody LoanApplicantModel loan){

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import 
 { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill}
  from 'react-icons/bs'
@@ -8,9 +8,39 @@ import
  from 'recharts';
 //  import HomeAppBar from '../components/FarmerHomeNavbar';
 import '../assets/css/DashBoard.css'
+import { useDispatch, useSelector } from 'react-redux';
+import LoanService from '../services/LoanService';
 
 function DashBoard2() {
-     
+    const [isClick, setIsClick] = useState(false);
+    const dispatch = useDispatch()
+    const {TrackedLoanDetails}  = useSelector((state) => state.master);
+    const {AllLoanDetails}  = useSelector((state) => state.master);
+    const { Token } = useSelector((state) => state.master);
+    const { Email } = useSelector((state) => state.master);
+    // const location = useLocation();
+    // console.log(location.state.trackId);
+    useEffect(() => {
+        getData();
+      }, []);
+    
+      const getData = async () => {
+        try {
+          const response = await LoanService.getLoanByEmail(Email);
+    
+          console.log("response", " ", response);
+          dispatch(addTrackedLoanDetails(response.data));
+          if(TrackedLoanDetails.length != 0){
+            setIsClick(true);
+            console.log(TrackedLoanDetails);
+          }
+          console.log(Email);
+        } catch (error) {
+          // console.log(Email);
+          // console.log(Token);
+          console.log(error);
+        }
+      };
     const data = [
         {
         //   name: 'Monday',
@@ -144,101 +174,39 @@ function DashBoard2() {
 
             <div>
                 
+            {AllLoanDetails.map((data) => (
+          <div className="card1">
+            <p className="card-title">applicantName: {data.applicantName}</p>
+            <p className="card-title">applicantEmail: {data.applicantEmail}</p>
+            <p className="card-title">loanType: {data.loanType}</p>
+            <p className="card-title">trackId: {data.trackId}</p>
+            <p className="card-title">applicantAddress: {data.applicantAddress}</p>
+            <p className="card-title">applicantMobile: {data.applicantMobile}</p>
+            <p className="card-title">applicantAadhaar: {data.applicantAadhaar}</p>
+            <p className="card-title">applicantPan: {data.applicantPan}</p>
+            <p className="card-title">applicantSalary: {data.applicantSalary}</p>
+            <p className="card-title">loanAmountRequired: {data.loanAmountRequired}</p>
+            <p className="card-title">loanRepaymentMonths: {data.loanRepaymentMonths}</p>
+            <p className="card-title">applicantAadhaar: {data.applicantAadhaar}</p>
+            <div style={{ display: "flex", paddingLeft: "70px", paddingTop: "20px",flexDirection:"row-reverse" }}>
+              {data.status === "accepted" ? (
+                <div>
+                  <button style={{ color: "white", backgroundColor: "green", width: "100px", borderRadius: "6px", borderColor: "green" }}>Accepted</button>
+                </div>
+              ) : ( data.status === "Rejected" ?
+                <div>
+                  <button style={{ color: "white", backgroundColor: "red", width: "100px", borderRadius: "6px", borderColor: "red" }}>Rejected</button>
+                </div>
+                :(
+                <div>
+                  <button style={{ color: "white", backgroundColor: "blue", width: "100px", borderRadius: "6px", borderColor: "blue" }}>Applied</button>
+                </div>
+                )
+              )}
+            </div>
+          </div>
+        ))}
 
-<div class="relative overflow-x-auto">
-    <table class="w-full ml-30 mt-20 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-6 py-3 rounded-s-lg">
-                    Loan ID
-                </th>
-                <br></br>
-                <br></br>
-
-                <th scope="col" class="px-6 py-3">
-                    Amount
-                </th>
-                <br></br>
-                <br></br>
-                <th scope="col" class="px-6 py-3 rounded-e-lg">
-                    status
-                </th>
-                <br></br>
-                <br></br>
-                
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="bg-white dark:bg-gray-800">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    328673
-                </th>
-                <br></br>
-                <br></br>
-                
-                <td class="px-6 py-4">
-                   500000
-                </td>
-                <br></br>
-                <br></br>
-                
-                <td class="px-6 py-4">
-                   Yet to Pay
-                </td>
-                <br></br>
-                <br></br>
-                
-            </tr>
-            <tr class="bg-white dark:bg-gray-800">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    126178
-                </th>
-                <br></br>
-                <br></br>
-                
-                <td class="px-6 py-4">
-                    100000
-                </td>
-                <br></br>
-                <br></br>
-                
-                <td class="px-6 py-4">
-                   Paid
-                </td>
-                <br></br>
-                <br></br>
-                
-            </tr>
-            <tr class="bg-white dark:bg-gray-800">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    789982
-                </th>
-                <br></br>
-                <br></br>
-                
-                <td class="px-6 py-4">
-                   700000
-                </td>
-                <br></br>
-                <br></br>
-                
-                <td class="px-6 py-4">
-                    Not Paid
-                </td>
-                <br></br>
-                <br></br>
-                
-            </tr>
-        </tbody>
-        <tfoot>
-            {/* <tr class="font-semibold text-gray-900 dark:text-white">
-                <th scope="row" class="px-6 py-3 text-base">Total</th>
-                <td class="px-6 py-3">3</td>
-                <td class="px-6 py-3">21,000</td>
-            </tr> */}
-        </tfoot>
-    </table>
-</div>
 
             </div>
 
