@@ -16,7 +16,7 @@ import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import { useNavigate } from 'react-router-dom';
 import HealthAndSafetyOutlinedIcon from '@mui/icons-material/HealthAndSafetyOutlined';
 import '../assets/css/Sidebar.css'
-export default function Sidebar() {
+export default function Sidebar2() {
     const navigate =useNavigate();
     const [state, setState] = React.useState({
         top: false,
@@ -51,67 +51,28 @@ export default function Sidebar() {
                         <ListItemIcon>
                             <HomeIcon/>
                         </ListItemIcon>
-                        <ListItemText primary="Home" primaryTypographyProps={{fontSize:"20px"}} />
+                        <ListItemText primary="home" primaryTypographyProps={{fontSize:"20px"}} />
                     </ListItemButton>
                     
                 </ListItem>
                 <ListItem key="sa" disablePadding>
-                    <ListItemButton onClick={()=>navigate('/customer')}>
+                    <ListItemButton onClick={()=>navigate('/Applied_Loans')}>
                         <ListItemIcon>
                             <PeopleAltIcon/>
                         </ListItemIcon>
-                        <ListItemText primary="Customer support" primaryTypographyProps={{fontSize:"20px"}}/>
+                        <ListItemText primary="applied loan" primaryTypographyProps={{fontSize:"20px"}}/>
                     </ListItemButton>
                     
                 </ListItem>
             <ListItem key="samp" disablePadding>
-            <ListItemButton onClick={()=>navigate('/about')}>
+            <ListItemButton onClick={()=>navigate('/Loan_Details')}>
                 <ListItemIcon>
                     <SupportAgentIcon/>
                 </ListItemIcon>
-                <ListItemText primary="About"primaryTypographyProps={{fontSize:"20px"}} />
+                <ListItemText primary="loan Details"primaryTypographyProps={{fontSize:"20px"}} />
             </ListItemButton>
             
         </ListItem>
-
-            </List>
-
-
-
-        </Box>
-        <Box
-            sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
-            role="presentation"
-            onClick={toggleDrawer(anchor, false)}
-            onKeyDown={toggleDrawer(anchor, false)}
-        >
-
-            <List>
-                <ListItem key="sample" disablePadding>
-                    
-                <ListItemButton onClick={()=>navigate('/Apply_loan')}>
-                <ListItemIcon>
-                    <SupportAgentIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Apply Loan"primaryTypographyProps={{fontSize:"20px"}} />
-            </ListItemButton>
-            
-                </ListItem>
-
-            </List>
-
-            <List>
-                <ListItem key="sample" disablePadding>
-                    
-                <ListItemButton onClick={()=>navigate('/Loan_Status')}>
-                <ListItemIcon>
-                    <SupportAgentIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Track Status"primaryTypographyProps={{fontSize:"20px"}} />
-            </ListItemButton>
-            
-                </ListItem>
-
             </List>
         </Box>
         </>

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.main.agro_fundx_backend.entity.Document;
 
 @Repository
-public interface DocumentRepository extends JpaRepository<Document, Long> {
+public interface DocumentRepository extends JpaRepository<Document, String> {
     Optional<Document> findByName(String fileName);
 
     Optional<Document> findByEmail(String email);

@@ -8,7 +8,39 @@ const initialState = {
     password : "",
     role:"user"
   },
-  userDetails:null
+  userDetails:null,
+  adminDetails:null,
+  LoanDetails:null,
+  TrackedLoanDetails:null,
+  adminpresent:false,
+  AllLoanDetails:{
+      trackId:0,
+      loanType:"",
+      applicantName:"",
+      applicantAddress:"",
+      applicantMobile:"",
+      applicantEmail:"Email",
+      applicantAadhaar:"",
+      applicantPan:"",
+      applicantSalary:"",
+      loanAmountRequired:"",
+      loanRepaymentMonths:"",
+      status:""
+  },
+  appliedDetails:{
+    trackId:0,
+      loanType:"",
+      applicantName:"",
+      applicantAddress:"",
+      applicantMobile:"",
+      applicantEmail:"Email",
+      applicantAadhaar:"",
+      applicantPan:"",
+      applicantSalary:"",
+      loanAmountRequired:"",
+      loanRepaymentMonths:"",
+      status:""
+  }
 };
 const masterSlice = createSlice({
   name: "Master",
@@ -27,6 +59,42 @@ const masterSlice = createSlice({
     addUserDetails: (state, action) => {
       state.userDetails = action.payload;
     },
+    addLoanDetails: (state, action) => {
+      state.LoanDetails = action.payload;
+    },
+    addAllLoanDetails: (state, action) => {
+      state.AllLoanDetails = action.payload;
+    },
+    addTrackedLoanDetails: (state, action) => {
+      state.TrackedLoanDetails = action.payload;
+    },
+    addAppliedDetails: (state, action) => {
+      state.appliedDetails = action.payload;
+    },
+    addadminPresent: (state, action) => {
+      state.adminpresent = action.payload;
+    },
+    removeAdminPresent: (state, action) => {
+      state.adminpresent = action.payload;
+    },
+    deleteUser: (state, action) => {
+      state.user = {
+        email: "",
+        password : "",
+        role:""
+      };
+    },
+    deleteEmail: (state, action) => {
+      console.log(action);
+      state.Email =null;
+    },
+    deleteToken: (state, action) => {
+      state.Token = null;
+    },
+    deleteUserDetails: (state, action) => {
+      state.userDetails = null;
+    },
+    
     
   },
 });
@@ -36,7 +104,17 @@ export const {
   addUser,
   addEmail,
   addToken,
-  addUserDetails
+  addUserDetails,
+  addLoanDetails,
+  addTrackedLoanDetails,
+  addAllLoanDetails,
+  addadminPresent,
+  addAppliedDetails,
+  deleteUser,
+  removeAdminPresent,
+  deleteEmail,
+  deleteToken,
+  deleteUserDetails,
   
 } = masterSlice.actions;
 

@@ -1,35 +1,78 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import LoanService from '../services/LoanService';
+import { addAppliedDetails } from '../components/Stores/MasterSlice';
 // import '../assets/css/AppliedLoans.css';
 const Applied_Loans = () => {
-  const cardsData = [
-    {  name: 'Applicant Name : Suhaas', id: 'Application Loan Id : 4829274', phone: 'Applicant Phone No : 9080847433'
-,address: 'Application Address : XXXXXX', email: 'Application Email : XXXXXX@gmail.com',loan: 'Loan Amount : 400000'},
-    {  name: 'Applicant Name : Gopal', id: 'Application Loan Id : 1833270', phone: 'Applicant Phone No : 957577433'
-,address: 'Application Address : XXXXXX', email: 'Application Email : XXXXXX@gmail.com',loan: 'Loan Amount : 800000'},
-    {  name: 'Applicant Name : Shekar', id: 'Application Loan Id : 2344291', phone: 'Applicant Phone No : 919847433'
-,address: 'Application Address : XXXXXX', email: 'Application Email : XXXXXX@gmail.com',loan: 'Loan Amount : 100000'},
-  ];
 
+  const [{appliedDetails},setAppliedDetails]  = useState(useSelector((state) => state.master));
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    try {
+      const response = await LoanService.getLoanByStatus();
+      console.log("response", " ", response.data);
+      dispatch(addAppliedDetails(response.data));
+      console.log(appliedDetails)
+    } catch (error) {
+      // console.log(Email);
+      // console.log(Token);
+      console.log(error);
+    }
+  };
+  const changeStatus = async (trackId) => {
+    console.log(trackId)
+    try {
+      const response = await LoanService.putLoanAccepted(trackId , "accepted");
+      // setAppliedDetails({...appliedDetails,status : "applied"})
+      console.log("response", " ", response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const changeStatus2 = async (trackId) => {
+    console.log(trackId)
+    try {
+      const response = await LoanService.putLoanAccepted(trackId , "rejected");
+      console.log("response", " ", response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div>
-      <h1 style={{textAlign:"center",paddingTop:"50px"}}>Applied Loans</h1>
+      <h1 style={{ textAlign: "center", paddingTop: "50px" }}>Applied Loans</h1>
       <div className="card-list">
-        {cardsData.map((card, index) => (
-          <div key={index} className="card1">
-            <p className="card-title">{card.name}</p>
-            <p className="card-title">{card.id}</p>
-            <p className="card-title">{card.phone}</p>
-            <p className="card-title">{card.address}</p>
-            <p className="card-title">{card.email}</p>
-            <p className="card-title">{card.loan}</p>
-            <div style={{display:"flex",paddingLeft:"70px",paddingTop:"20px"}}>
-                <div style={{paddingRight:"50px"}}>
-                <button style={{color:"white",backgroundColor:"green",width:"140px",borderRadius:"6px",borderColor:"green"}}>Approve for Loan</button>
-                </div>
+        {appliedDetails.map((data) => (
+          <div className="card1">
+            <p className="card-title">applicantName: {data.applicantName}</p>
+            <p className="card-title">applicantEmail: {data.applicantEmail}</p>
+            <p className="card-title">loanType: {data.loanType}</p>
+            <p className="card-title">trackId: {data.trackId}</p>
+            <p className="card-title">applicantName: {data.applicantAddress}</p>
+            <p className="card-title">applicantMobile: {data.applicantMobile}</p>
+            <p className="card-title">applicantAadhaar: {data.applicantAadhaar}</p>
+            <p className="card-title">applicantPan: {data.applicantPan}</p>
+            <p className="card-title">applicantSalary: {data.applicantSalary}</p>
+            <p className="card-title">loanAmountRequired: {data.loanAmountRequired}</p>
+            <p className="card-title">loanRepaymentMonths: {data.loanRepaymentMonths}</p>
+            <p className="card-title">applicantAadhaar: {data.applicantAadhaar}</p>
+             <div style={{ display: "flex", paddingLeft: "70px", paddingTop: "20px",flexDirection:"row-reverse" }}>
+              {/* {data.status === "Accepted" ? ( */}
                 <div>
-                <button style={{color:"white",backgroundColor:"red",width:"140px",borderRadius:"6px",borderColor:"red"}}>Reject</button>
+                  <button style={{ color: "white", backgroundColor: "green", width: "100px", borderRadius: "6px", borderColor: "green" }} onClick={() => changeStatus(data.trackId)}>Accepte</button>
                 </div>
-            </div>
+              {/* ) : ( data.status === "Rejected" ? */}
+                <div>
+                  <button style={{ color: "white", backgroundColor: "red", width: "100px", borderRadius: "6px", borderColor: "red" }}onClick={() => changeStatus2(data.trackId)} >Reject</button>
+                </div>
+                {/* :( */}
+                {/* ) */}
+              {/* )} */}
+            </div> 
           </div>
         ))}
       </div>

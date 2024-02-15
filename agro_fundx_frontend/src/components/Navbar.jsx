@@ -12,37 +12,40 @@ import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import '../assets/css/Navbar.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
+import Swal from "sweetalert2";
 import Sidebar from './Sidebar';
 import { useSelector ,useDispatch} from 'react-redux';
 import { useEffect } from 'react';
-
+import { deleteUser , deleteEmail , deleteToken, deleteUserDetails } from './Stores/MasterSlice';
+import { removeAdminPresent } from './Stores/MasterSlice';
+import Sidebar2 from './Sidebar2';
+// import { useNavigate } from 'react-router';
 
 export default function MenuAppBar() {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [login , setLogin] = React.useState(false);
-  const { FarmerDetails } = useSelector((state) => state.master);
+  // const { FarmerDetails } = useSelector((state) => state.master);
   const dispatch = useDispatch();
+  const navigate =useNavigate();
+  const  {user}  = useSelector((state) => state.master);
+  const  {adminpresent}  = useSelector((state) => state.master);
+  const [present , setPresent] = React.useState(false);;
+  useEffect(() => {
+   if(user.role === "user" || adminpresent){
+    setPresent(true);
+  }
+  else{
+     setPresent(false);
+
+   }
+}, );
+  
   const  handleChange = (event) => {
     setAuth(event.target.checked);
   };
-  // useEffect(() => {
-    
-  //   if(FarmerDetails.length != 0){
-  //     setLogin(true);
-  //     console.log(FarmerDetails);
-      
-  //   }
-  //   else{
-  //     setLogin(true);
-      
-  //   }
-  //   // console.log(login);
-  // }, []);
-
-
+  
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -50,33 +53,54 @@ export default function MenuAppBar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleClose1 = () => {
-
-    setAnchorEl(null);
-    dispatch(deleteFarmerDetails());
-    console.log(FarmerDetails);
-    setLogin(false);
+  const eventLogOut = () => {
+    let timerInterval;
+    Swal.fire({
+      title: "Successfully LoggedOut !",
+      html: "Redirecting in <b></b> milliseconds.",
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+        const b = Swal.getHtmlContainer().querySelector("b");
+        timerInterval = setInterval(() => {
+          b.textContent = Swal.getTimerLeft();
+        }, 100);
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+      },
+    }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        console.log("I was closed by the timer");
+      }
+    });
+    setTimeout(() => {
+      setAnchorEl(null);
+      dispatch(deleteUser());
+      dispatch(deleteEmail());
+      dispatch(deleteToken());
+      dispatch(deleteUserDetails());
+      // setLogin(false);
+        console.log("hello")
+        setPresent(false);
+        dispatch(removeAdminPresent(false));
+      navigate("/login");
+    }, 3000);
   };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      {/* <FormGroup>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={auth}
-              onChange={handleChange}
-              aria-label="login switch"
-            />
-          }
-          label={auth ? 'Logout' : 'Login'}
-        />
-      </FormGroup> */}
       <AppBar position="relative">
         <Toolbar>
-            {login ? (
-                <Sidebar/>
-            ):(null)}
+                {user.role === "user" ? (
+            <Sidebar/>
+        ) : (
+            adminpresent ? 
+            (<Sidebar2/>)
+             : (null)
+        )}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}
             style={
               {fontWeight:"800"}
@@ -90,6 +114,9 @@ export default function MenuAppBar() {
             agro fundX
               </Link>
           </Typography>
+          {
+          !adminpresent ?(
+            
           <Link to= "/customer"
             style={{
                 textDecoration: "none",
@@ -105,6 +132,10 @@ export default function MenuAppBar() {
                   contact
                 </Typography>
           </Link>
+          ):(null)}
+           {
+          !adminpresent ?(
+            
           <Link to= "/about"
             style={{
                 textDecoration: "none",
@@ -124,6 +155,7 @@ export default function MenuAppBar() {
                   about
                 </Typography>
           </Link>
+          ):(<p></p>)}
           {auth && (
             <div>
               <IconButton
@@ -137,7 +169,7 @@ export default function MenuAppBar() {
                 <AccountCircle />
 
               </IconButton>
-              {login ? 
+              {present ? 
                 (
 
               <Menu
@@ -157,7 +189,9 @@ export default function MenuAppBar() {
               >
 
             <MenuItem onClick={handleClose}>
-                <Link
+              {user.role === "user" ?(
+                <div>
+                  <Link
                         to="/Profile"
                         style={{
                           textDecoration: "none",
@@ -169,10 +203,8 @@ export default function MenuAppBar() {
                           profile
                         </Typography>
                       </Link>
-                    </MenuItem>
-                    <MenuItem onClick={handleClose1}>
-                <Link
-                        to="/"
+                  <Link
+                        to="/DashBoard2"
                         style={{
                           textDecoration: "none",
                           color: "black",
@@ -180,9 +212,30 @@ export default function MenuAppBar() {
                         }}
                       >
                         <Typography class = "menu-item">
-                          Logout
+                          Dashboard
                         </Typography>
                       </Link>
+                      </div>
+                     
+              ):(
+                <Link
+                to="/DashBoard"
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                 
+                }}
+              >
+                <Typography class = "menu-item">
+                  dashboard
+                </Typography>
+              </Link>
+              )}
+                    </MenuItem>
+                    <MenuItem onClick={eventLogOut}>
+                        <Typography class = "menu-item">
+                          Logout
+                        </Typography>
                     </MenuItem>
               </Menu>
                 ):(
@@ -211,6 +264,7 @@ export default function MenuAppBar() {
                          
                         }}
                       >
+                        
                         <Typography class = "menu-item">
                           login
                         </Typography>
@@ -218,8 +272,7 @@ export default function MenuAppBar() {
                     </MenuItem>
                 {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
               </Menu>
-
-                )  
+                ) 
             }
             </div>
           )}

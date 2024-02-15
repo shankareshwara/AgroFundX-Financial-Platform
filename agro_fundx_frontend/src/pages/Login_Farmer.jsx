@@ -3,13 +3,14 @@ import {useFormik} from "formik"
 import { SignInSchema } from '../assets/schemas/signinSchema'
 import Swal from 'sweetalert2'
 import {useNavigate} from 'react-router-dom'
-import {useDispatch} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import '../assets/css/Login.css'
 import UserAuthService from '../services/UserAuthService'
 import { addEmail , addToken ,addUser} from '../components/Stores/MasterSlice'
 const Login_Farmer = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const {Email} = useSelector((state) => state.master);
     const initialState = {
         email: "",
         password : "",
@@ -31,7 +32,7 @@ const Login_Farmer = () => {
       const response = await UserAuthService.loginUserWithEmailAndPassword(values);
       console.log(response);
       var token = response.data.token;
-      var userEmail = response.data.email;
+      var userEmail = values.email;
       
       if (response.message != "Request failed with status code 400") {
         let timerInterval;
@@ -59,6 +60,7 @@ const Login_Farmer = () => {
         setTimeout(() => {
           dispatch(addUser(values)); 
           dispatch(addEmail(userEmail));
+          console.log(userEmail);
           dispatch(addToken(token));
           navigate("/");
         }, 3000);

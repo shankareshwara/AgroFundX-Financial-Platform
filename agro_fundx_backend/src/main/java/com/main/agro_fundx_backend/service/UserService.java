@@ -20,30 +20,28 @@ public class UserService {
         return repo.findAll();
     }
 
-    public boolean editUser(ProfileEditRequest request , String email) {
+    public User editUser(ProfileEditRequest request , String email) {
        
         User user = repo.findByEmail(email).get();
 
-        if(user != null){
+        // if(user != null){
 
             if(request.getUsername() != null){
                 user.setName(request.getUsername());
             }
-            if(request.getEmail() != null){
-                user.setEmail(request.getEmail());
-            }
-            if(request.getMobileNumber() != null){
-                user.setPhoneNumber(request.getMobileNumber());
+            if(request.getPhoneNumber() != null){
+                user.setPhoneNumber(request.getPhoneNumber());
             } 
 
             repo.saveAndFlush(user);  
-            return true;         
-        }
+            // return true;         
+        // }
 
-        return false;
+        return user;
     }
 
-    public User getUserByEmail(String email) {
+    public User getUserByEmail(String email){
+        System.out.println("😅😅😅😅😅😅");
        return repo.findByEmail(email).get();
     }
 }

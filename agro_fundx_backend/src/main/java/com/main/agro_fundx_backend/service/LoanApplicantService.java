@@ -5,8 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.main.agro_fundx_backend.dto.request.ProfileEditRequest;
 import com.main.agro_fundx_backend.entity.LoanApplicantModel;
 import com.main.agro_fundx_backend.entity.User;
 import com.main.agro_fundx_backend.repository.LoanApplicantRepository;
@@ -23,9 +21,15 @@ public class LoanApplicantService {
         return repo.findAll();
     }
 
-    public boolean addLoan(LoanApplicantModel loan){
-        System.out.println(loan.toString());
-        return repo.save(loan) != null ? true : false;
+    public String addLoan(LoanApplicantModel loan){
+         Optional<LoanApplicantModel> check = repo.findByEmailAndLoanType(loan.getApplicantEmail() , loan.getLoanType());
+        if(check.isEmpty()){
+            repo.save(loan);
+            return "SuccessFully posted";
+        }
+        else{
+            return "already exists";
+        }
     }
 
     public ResponseEntity<?> getDetailsByLoanId(long trackid) {

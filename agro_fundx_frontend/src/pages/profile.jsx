@@ -6,22 +6,42 @@ import { FaCircleUser } from "react-icons/fa6";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import '../assets/css/Profile.css'
+import { useDispatch , useSelector} from "react-redux";
 import { Button } from '@mui/material';
+import { addUserDetails } from "../components/Stores/MasterSlice";
+import UserService from "../services/UserService";
 
 
 const Profile = () => {
     const [isOpen, setOpen] = useState(false);
     const [isOpen2, setOpen2] = useState(false);
     const [isEdit, setEdit] = useState(false);
-
-    // const { driverDetails } = useSelector((state) => state.master);
+    const dispatch = useDispatch();
+    const { userDetails } = useSelector((state) => state.master);
+    const { Email } = useSelector((state) => state.master);
+    const { Token } = useSelector((state) => state.master);
 
     useEffect(() => {
-        AOS.init();
+        AOS.init();     
     }, []);
 
-    // console.log(driverDetails);
+    const [initialState,setIntialState] = useState({
+        username: "",
+        phoneNumber:""
+      });
 
+    const editData = async () => {
+        setEdit(false)
+        try{
+            const response = await UserService.putUserByEmail(Email,initialState ,Token);
+            console.log("response", " ", response.data);
+            dispatch(addUserDetails(response.data));
+            console.log(initialState);
+        }
+        catch(error){
+            console.log(error);
+        }
+    }
     return (
         <motion.div
             initial={{opacity:0}}
@@ -61,37 +81,37 @@ const Profile = () => {
                                                     <h3>Email ID</h3>
                                                 </div>
                                                 <div className="profile-value">
-                                                    <h3>SHANKAR</h3>
+                                                    <h3>{userDetails.email}</h3>
                                                 </div>
                                                 <div>
                                                     <h3 className="profile-field">Username</h3>
                                                 </div>
                                                 <div className="profile-value">
-                                                    <h3>SHANKAR</h3>
+                                                    <h3>{userDetails.name}</h3>
                                                 </div> 
                                                 <div className="profile-field">
                                                     <h3>Phone Number</h3>
                                                 </div>
                                                 <div className="profile-value">
-                                                    <h3>shankar</h3>
+                                                    <h3>{userDetails.phoneNumber}</h3>
                                                 </div>
                                                 <div className="profile-field">
                                                     <h3>address</h3>
                                                 </div>
                                                 <div className="profile-value">
-                                                    <h3>address</h3>
+                                                    <h3>{userDetails.email}</h3>
                                                 </div>
                                                 <div className="profile-field">
                                                     <h3>loan id</h3>
                                                 </div>
                                                 <div className="profile-value">
-                                                    <h3>loan</h3>
+                                                    <h3>{userDetails.email}</h3>
                                                 </div>
                                                 <div className="profile-field">
                                                     <h3>monthly emi</h3>
                                                 </div>
                                                 <div className="profile-value">
-                                                    <h3>0</h3>
+                                                    <h3>{userDetails.email}</h3>
                                                 </div>
                                             <div>
                                                 {/* <button onClick = {()=> setEdit(true)}>edit</button> */}
@@ -135,28 +155,25 @@ const Profile = () => {
                                                         margin: "20px",
                                                     }}
                                                 >
-                                                    <div className="profile-field">
-                                                        <h3>Email ID</h3>
-                                                    </div>
-                                                    <div className="profile-value">
-                                                    <input type="text" className="input" placeholder="email" />
-                                                    </div>
                                                     <div>
                                                         <h3 className="profile-field">Username</h3>
                                                     </div>
                                                     <div className="profile-value">
-                                                    <input type="text" className="input" placeholder="Name" />
+                                                    <input type="text" className="input" placeholder="Name" onChange={(e) => {
+                                                        setIntialState({...initialState,username : e.target.value})
+                                                    }} />
                                                     </div> 
-                                                   
                                                     <div className="profile-field">
-                                                        <h3>address</h3>
+                                                        <h3>phoneNumber</h3>
                                                     </div>
                                                     <div className="profile-value">
-                                                    <input type="text" className="input" placeholder="address" />
+                                                    <input type="text" className="input" placeholder="phoneNumber" onChange={(e) => {
+                                                        setIntialState({...initialState,phoneNumber : e.target.value})
+                                                    }}/>
                                                     </div>
                                                 <div>
                                                     {/* <button onClick = {()=> setEdit(false)}>done</button> */}
-                                                    <Button variant="contained" onClick = {()=> setEdit(false)}>done</Button>
+                                                    <Button variant="contained" onClick = {editData}>done</Button>
                                                 </div>
                                                 </div>
                                             </div>

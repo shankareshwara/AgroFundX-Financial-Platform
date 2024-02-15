@@ -5,15 +5,18 @@ import Swal from 'sweetalert2'
 // import validator from 'validator'
 import {useNavigate} from 'react-router-dom'
 import {useState} from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { addadminPresent } from '../components/Stores/MasterSlice'
+// import { UseSelector } from 'react-redux'
 // import '../Styles/signup.css'
 function Login_Admin() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const  {adminpresent}  = useSelector((state) => state.master);
+    
     const initialState = {
         email: "",
         password : "",
-        // confirmPassword:"",
-        // mobileNumber:"",
-        // address:"",
     };
 
     const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
@@ -29,7 +32,7 @@ function Login_Admin() {
 
   const eventSignIp = () => {
 
-    if(values.email === "shankar@gmail.com" && values.password === "shankar@3002"){
+    if(values.email === "admin@gmail.com" && values.password === "admin@3002"){
      
       let timerInterval;
       Swal.fire({
@@ -54,7 +57,9 @@ function Login_Admin() {
         }
       });
       setTimeout(() => {
-        navigate("/admin");
+        dispatch(addadminPresent(true));
+        console.log(adminpresent);
+        navigate("/");
       }, 3000);
     }
     else {

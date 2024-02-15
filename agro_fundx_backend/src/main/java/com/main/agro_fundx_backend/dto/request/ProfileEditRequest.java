@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProfileEditRequest {
-    private String email;
     private String username;
-    private String mobileNumber;
+    private String phoneNumber;
 }

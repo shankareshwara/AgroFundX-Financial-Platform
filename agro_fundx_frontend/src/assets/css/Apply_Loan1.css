@@ -7,7 +7,13 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
-
+.card2{
+  margin-left: 35rem;
+}
+.pp{
+  padding-left: 4rem!important;
+  color: #bd2130 !important;
+}
 :root {
   --main-blue: #71b7e6;
   /* --main-purple: #9b59b6; */

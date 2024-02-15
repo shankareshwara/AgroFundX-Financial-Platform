@@ -37,8 +37,8 @@ public class LoanApplicantModel {
     private String loanAmountRequired;
     private String loanRepaymentMonths;
     private String status;
-    @ManyToOne(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
-    @JoinColumn(name = "loan_email")
-    private Document document;
+    // @ManyToOne(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+    // @JoinColumn(name = "loan_email")
+    // private Document document;
 }
 
